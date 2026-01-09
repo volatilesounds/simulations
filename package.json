@@ -1,0 +1,12 @@
+{
+  "name": "create-sim",
+  "private": true,
+  "version": "0.1.0",
+  "bin": {
+    "create-sim": "index.js"
+  },
+  "type": "module",
+  "dependencies": {
+    "prompts": "^2.0.0"
+  }
+}

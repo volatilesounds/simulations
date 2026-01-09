@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulation Test</title>
+  <style>
+    body { margin: 0; }
+    #vsounds-render { height: 100vh; }
+  </style>
+</head>
+<body>
+<div id="vsounds-render"></div>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const container = document.getElementById("vsounds-render");
+
+    // app name from the injected global
+    const name = __APP_NAME__;  
+    const fnName = "mount" + __APP_NAME_PASCAL__ + "App";
+
+    const mountFn = window[fnName];
+    if (typeof mountFn === "function") {
+      console.log(`[${__APP_NAME__}] Initializing simulation app with container:`, container);
+      mountFn(container);
+    } else {
+      console.error(`[${__APP_NAME__}] Mount function not found:`, fnName);
+    }
+  });
+</script>
+<script type="module" src="./src/main.jsx"></script>
+</body>
+</html>
