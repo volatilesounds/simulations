@@ -17,6 +17,7 @@ export default defineConfig({
 
   build: {
     outDir: `dist/simulations/${pkg.name}`,
+    manifest: true,
   },
 
   resolve: {
