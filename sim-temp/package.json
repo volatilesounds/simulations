@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node scripts/move-manifest.js",
     "deploy": "npm run build && gh-pages -d dist --add",
     "lint": "eslint .",
     "preview": "vite preview"
