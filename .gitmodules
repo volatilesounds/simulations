@@ -1,0 +1,3 @@
+[submodule "vsounds-module"]
+	path = vsounds-module
+	url = git@github.com:volatilesounds/vsounds-module.git
