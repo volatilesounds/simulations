@@ -1,6 +1,54 @@
 import { useEffect } from 'react'
 import * as THREE from 'three'
+import VSounds from 'vsounds'
 import './App.css'
+
+// Temp scene
+class TempScene extends VSounds.VSSceneBase {
+  onEnter() {
+    // Low intensity ambient light
+    const ambient = new THREE.AmbientLight(0xffffff, 0.25);
+    this.scene.add(ambient);
+
+    // Cube geometry
+    const geometry = new THREE.BoxGeometry();
+    const material = new THREE.MeshLambertMaterial( { color: 0x252525} );
+    this.cube = new THREE.Mesh( geometry, material );
+    this.scene.add( this.cube );
+
+    //Point light
+    const light = new THREE.DirectionalLight(0xffffff, 5.0);
+    this.scene.add(light);
+
+    // GROUND
+    // const groundGeo = new THREE.PlaneGeometry( 10000, 10000 );
+    // const groundMat = new THREE.MeshStandardMaterial({
+    //   color: 0xe6e2d3, // light warm gray
+    //   roughness: 0.9,
+    //   metalness: 0.0
+    // });
+
+    // const ground = new THREE.Mesh( groundGeo, groundMat );
+    // ground.position.y = - 33;
+    // ground.rotation.x = - Math.PI / 2;
+    // ground.receiveShadow = true;
+    // this.scene.add( ground );
+
+    // Helpers
+    // const lightHelper = new THREE.DirectionalLightHelper(light, 5);
+    // this.scene.add(lightHelper);
+    // this.scene.add(new THREE.AxesHelper(5));
+  }
+
+  update(dt) {
+    this.cube.rotation.x += 0.01;
+    this.cube.rotation.y += 0.01;
+  }
+
+  onExit() {
+    this.scene.background = null
+  }
+}
 
 function App({ container }) {
   useEffect(()=>{
@@ -12,13 +60,6 @@ function App({ container }) {
 
     const width = container.clientWidth;
     const height = container.clientHeight;
-
-    // Create scene
-    const scene = new THREE.Scene();
-
-    // Low intensity ambient light
-    const ambient = new THREE.AmbientLight(0xffffff, 0.25);
-    scene.add(ambient);
 
     // Create custom camera
     const fov = 75;
@@ -33,8 +74,6 @@ function App({ container }) {
     renderer.setClearColor(0xF5F5F5, 1);
     //renderer.setPixelRatio( 2.0); INCREASE QUALITY
 
-    container.appendChild(renderer.domElement);
-
     //Resize window
     var onWindowResize = function()
     {
@@ -44,56 +83,24 @@ function App({ container }) {
     }
     window.addEventListener('resize', onWindowResize);
 
-    // Initialize the game
-    const geometry = new THREE.BoxGeometry();
-    const material = new THREE.MeshLambertMaterial( { color: 0x252525} );
-    const cube = new THREE.Mesh( geometry, material );
-    scene.add( cube );
+    container.appendChild(renderer.domElement);
 
-    //Point light
-    const light = new THREE.DirectionalLight(0xffffff, 5.0);
-    scene.add(light);
-  
-    // GROUND
-    // const groundGeo = new THREE.PlaneGeometry( 10000, 10000 );
-    // const groundMat = new THREE.MeshStandardMaterial({
-    //   color: 0xe6e2d3, // light warm gray
-    //   roughness: 0.9,
-    //   metalness: 0.0
-    // });
-
-    // const ground = new THREE.Mesh( groundGeo, groundMat );
-    // ground.position.y = - 33;
-    // ground.rotation.x = - Math.PI / 2;
-    // ground.receiveShadow = true;
-    // scene.add( ground );
-
-    // Helpers
-    // const lightHelper = new THREE.DirectionalLightHelper(light, 5);
-    // scene.add(lightHelper);
-    // scene.add(new THREE.AxesHelper(5));
+    // Scenes manager
+    const scenesManager = new VSounds.VSScenesManager(renderer, camera);
+    scenesManager.setScene(TempScene);
     
 
     //Game logic
     var update = function()
     {
-      cube.rotation.x += 0.01;
-      cube.rotation.y += 0.01;
-    }
-
-    //Draw scene
-    var render = function()
-    {
-      renderer.render(scene, camera);
+      scenesManager.update();
     }
 
     //Run game loop (update, render, repeat)
     var GameLoop = function()
     {
       requestAnimationFrame(GameLoop);
-
       update();
-      render();
 
     }
 
