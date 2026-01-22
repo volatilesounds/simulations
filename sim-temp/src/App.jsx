@@ -20,6 +20,20 @@ class TempScene extends VSounds.VSSimBase {
     const light = new THREE.DirectionalLight(0xffffff, 5.0);
     this.scene.add(light);
 
+    // Params
+    this.gui.addParams({
+      cubeSize: {
+        value: 1,
+        min: 0.5,
+        max: 3,
+        step: 0.1,
+        label: "Cube Size",
+        onChange: (v) => {
+          this.cube.scale.set(v, v, v);
+        }
+      }
+    }, true); // this will show params
+
 
     // GROUND
     // const groundGeo = new THREE.PlaneGeometry( 10000, 10000 );
@@ -49,11 +63,12 @@ class TempScene extends VSounds.VSSimBase {
   }
 
   update(dt) {
-    this.cube.rotation.x += 0.01;
-    this.cube.rotation.y += 0.01;
+    this.cube.rotation.x += (0.5 * dt);
+    this.cube.rotation.y += (0.5 * dt);
 
     // Draw debug info
     this.debugOverlay.addTextCategory("Cube", "Rotation", `${this.cube.rotation.x.toFixed(2)}, ${this.cube.rotation.y.toFixed(2)}, ${this.cube.rotation.z.toFixed(2)}`);
+    this.debugOverlay.addTextCategory("Cube", "Size", this.cube.scale.x.toFixed(2));
     this.debugOverlay.update();
   }
 
