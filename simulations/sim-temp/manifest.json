@@ -1,11 +1,18 @@
 {
+  "../vsounds-module/src/audio/PitchShiftProcessor.js": {
+    "file": "assets/PitchShiftProcessor-DyTkgCH7.js",
+    "src": "../vsounds-module/src/audio/PitchShiftProcessor.js"
+  },
   "index.html": {
-    "file": "assets/index-BUR-fR4D.js",
+    "file": "assets/index-zhOKznZc.js",
     "name": "index",
     "src": "index.html",
     "isEntry": true,
     "css": [
       "assets/index-tn0RQdqM.css"
+    ],
+    "assets": [
+      "assets/PitchShiftProcessor-DyTkgCH7.js"
     ]
   }
 }
